@@ -6,13 +6,13 @@
 /*   By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 17:52:41 by ecortes-          #+#    #+#             */
-/*   Updated: 2025/02/10 12:08:55 by ecortes-         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:59:36 by ecortes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-#define TOKENS
+//#define TOKENS
 
 #ifdef TOKENS
 #define TOKENS
@@ -52,7 +52,43 @@ static void	print_tokens(t_myshell *tshell)
 		current_token = current_token->next;
 	}
 }
+
 #endif
+
+/*static void print_comands(t_myshell *tsh)
+{
+	t_comand *aux = tsh->comands;
+	int i = 0;
+
+	if (!aux)
+		printf("no hay comands\n");
+	while (aux)
+	{
+		printf("_______________________________________________\n");
+		while (aux->args[i])
+		{
+			printf("ARG %i: %s\n",i+1, aux->args[i]);
+			i++;
+		}
+		i = 0;
+		int k;
+		if (tsh->comands->fds->apend_file)
+			for(k = 0; tsh->comands->fds->apend_file[k]; k++)
+				printf("APPEND FILE: %s\n", tsh->comands->fds->apend_file[k]);
+		if (tsh->comands->fds->apend_file)
+			for(k = 0; tsh->comands->fds->input_file[k]; k++)
+				printf("INPUT FILE: %s\n", tsh->comands->fds->input_file[k]);
+		if (tsh->comands->fds->apend_file)
+			for(k = 0; tsh->comands->fds->output_file[k]; k++)
+				printf("OUTPUT FILE: %s\n", tsh->comands->fds->output_file[k]);
+		printf("FD IN: %d\n", tsh->comands->fds->fd_in);
+		printf("FD: OUT %d\n", tsh->comands->fds->fd_out);
+		printf("_______________________________________________\n");
+		aux = aux->next;
+	}
+	//printf("\n\n");
+	return ;
+}*/
 
 int	main(int argc, char **argv, char **env)
 {
@@ -67,13 +103,12 @@ int	main(int argc, char **argv, char **env)
 	signals();
 	init(&tshell, env);
 	while (loop(&tshell))
-	{
-	}
+	{}
 	exit_minishell(&tshell);
 	return (0);
 }
 
-//ctrl + D es EOF, para eso lo de !pr -> exit
+//ctrl + D es EOF, para eso lo de !pr -> break
 int	loop(t_myshell *tshell)
 {
 	char	*pr;
@@ -86,27 +121,11 @@ int	loop(t_myshell *tshell)
 			break ;
 		tshell->prompt = ft_strtrim(pr, " \n\t\r\v\f");
 		free(pr);
-		add_history(tshell->prompt);
-		if (count_quotes(tshell->prompt) == 1)
-		{
-			free(tshell->prompt);
-			return(1);
-		}
-		tokens2(tshell);//expander(tshell);
-		expander(tshell);
-		print_tokens(tshell);
-		//comands(tshell);
-		//setup_comands(tshell);
-		//print_comands(tshell);
-		//print_args(tshell);
+		if (parsing(tshell))
+			return (tshell->exit_status);
+		
 		//exec(tshell);
 		free_minishell(tshell);
 	}
 	return (0);
-}
-
-void	exit_minishell(t_myshell *ms)
-{
-	if (ms->environ)
-		free_arr(ms->environ);
 }

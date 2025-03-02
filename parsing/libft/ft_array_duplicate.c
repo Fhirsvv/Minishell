@@ -6,7 +6,7 @@
 /*   By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 23:58:48 by ecortes-          #+#    #+#             */
-/*   Updated: 2025/02/01 21:04:36 by ecortes-         ###   ########.fr       */
+/*   Updated: 2025/03/02 18:55:53 by ecortes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_arr(char **split_arr)
 	int	i;
 
 	i = 0;
+	if (!split_arr)
+		return ;
 	while (split_arr[i])
 	{
 		free(split_arr[i]);
@@ -24,6 +26,7 @@ void	free_arr(char **split_arr)
 		i++;
 	}
 	free(split_arr);
+	split_arr = NULL;
 }
 
 char	**ft_array_duplicate(char **arr)
@@ -32,6 +35,8 @@ char	**ft_array_duplicate(char **arr)
 	size_t	i;
 
 	i = 0;
+	if (!arr)
+		return (NULL);
 	while (arr[i])
 		i++;
 	aux = ft_calloc(sizeof(char *), i + 1);

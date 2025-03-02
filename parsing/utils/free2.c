@@ -1,32 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_commandadd_back.c                               :+:      :+:    :+:   */
+/*   free2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/07 17:11:33 by ecortes-          #+#    #+#             */
-/*   Updated: 2025/02/01 19:04:41 by ecortes-         ###   ########.fr       */
+/*   Created: 2025/02/13 12:11:57 by ecortes-          #+#    #+#             */
+/*   Updated: 2025/03/02 18:51:10 by ecortes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parse.h"
 
-void	ft_commandadd_back(t_comand **lst, t_comand *new)
+void free_tcoms(t_myshell *ms)
 {
-	t_comand	*node;
+	t_com *caux;
+	t_com *cauxnext;
+	t_files *faux;
+	t_files *fauxnext;
 
-	if (new == NULL)
-		return ;
-	if (*lst == NULL)
-		*lst = new;
-	else
+	caux = ms->t_com;
+	fauxnext = NULL;
+	cauxnext = NULL;
+	while (caux)
 	{
-		node = *lst;
-		while (node->next)
+		cauxnext = caux->next;
+		faux = caux->files;
+		while (faux)
 		{
-			node = node->next;
+			fauxnext = faux->next;
+			free(faux);
+			faux = fauxnext;
 		}
-		node->next = new;
+		faux = NULL;
+		free_arr(caux->args);
+		ft_free(caux->env_path);
+		free(caux);
+		caux = cauxnext;
 	}
+	ms->t_com = NULL;
 }

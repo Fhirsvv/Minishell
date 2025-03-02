@@ -6,7 +6,7 @@
 /*   By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 18:00:23 by ecortes-          #+#    #+#             */
-/*   Updated: 2025/02/03 11:11:53 by ecortes-         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:33:56 by ecortes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,9 @@ int	init(t_myshell *myshell, char **environ)
 	myshell->environ = ft_array_duplicate(environ);
 	myshell->prompt = NULL;
 	myshell->path = get_path(myshell);
-	myshell->comands = NULL;
+	myshell->t_com = NULL;
+	myshell->exit_status = 0;
 	return(0);
-}
-
-void	init_fds(t_fds **fds)
-{
-	*fds = malloc(sizeof(t_fds));
-	if (!(*fds))
-		return ;
-	(*fds)->apend_file = NULL;
-	(*fds)->input_file = NULL;
-	(*fds)->output_file = NULL;
-	(*fds)->fd_in = -1;
-	(*fds)->fd_out = -1;
-	(*fds)->stdin_backup = dup(STDIN_FILENO);
-	(*fds)->stdout_backup = dup(STDOUT_FILENO);
 }
 
 t_token_handler	init_token_handler(char *str, t_myshell *ms)

@@ -6,7 +6,7 @@
 /*   By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:48:27 by ecortes-          #+#    #+#             */
-/*   Updated: 2025/02/01 19:05:29 by ecortes-         ###   ########.fr       */
+/*   Updated: 2025/03/02 18:32:26 by ecortes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	z = 0;
 	str = ft_calloc(sizeof (char *), (ft_count_words(s, c) + 1));
-	while (s[i] && str != NULL)
+	while (s && s[i] && str != NULL)
 	{
 		if (s[i] != c && (i == 0 || s[i - 1] == c))
 		{

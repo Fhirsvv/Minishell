@@ -6,7 +6,7 @@
 /*   By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:34:24 by ecortes-          #+#    #+#             */
-/*   Updated: 2025/02/02 12:16:10 by ecortes-         ###   ########.fr       */
+/*   Updated: 2025/03/02 20:00:21 by ecortes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,58 +36,9 @@ int	count_quotes(const char *prompt)
 		}
 		i++;
 	}
-	//printf("este es el number of quotes: %i\n", quotes);
 	if (quotes % 2 != 0 || quotes == 1)
 		return (1);
 	return (0);
-}
-
-char	*get_path(t_myshell *tshell)
-{
-	int		i;
-	char	*envp_path;
-
-	i = 0;
-	envp_path = NULL;
-	while (tshell->environ[i])
-	{
-		if (ft_strncmp("PATH", tshell->environ[i], 4) == 0)
-		{
-			envp_path = tshell->environ[i];
-			return (envp_path);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-char	*get_cmd_path(char *path, char *cmd)
-{
-	char	**possible_path;
-	char	*cmd_route;
-	char	*aux_route;
-	char	*aux;
-	int		i;
-
-	i = 0;
-	aux = ft_strtrim(path, "PATH=");
-	possible_path = ft_split(aux, ':');
-	if (access(cmd, F_OK | X_OK) == 0)
-		return (cmd);
-	while (possible_path[++i])
-	{
-		aux_route = ft_strjoin(possible_path[i], "/");
-		cmd_route = ft_strjoin(aux_route, cmd);
-		if (access(cmd_route, F_OK) != -1 && access(cmd_route, X_OK) != -1)
-			break ;
-		else
-		{
-			ft_free2(aux_route, cmd_route);
-			cmd_route = NULL;
-		}
-	}
-	free (aux);
-	return (cmd_route);
 }
 
 int	how_many_finds(char *str, int c)
@@ -106,4 +57,31 @@ int	how_many_finds(char *str, int c)
 		count++;
 	}
 	return (count);
+}
+
+int parsing(t_myshell *tshell)
+{
+	if (!tshell->prompt)
+		tshell->exit_status = 1;
+
+	add_history(tshell->prompt);
+	if (count_quotes(tshell->prompt) == 1)
+	{
+		free(tshell->prompt);
+		tshell->exit_status = 1;
+		return (tshell->exit_status);
+	}
+	tokens2(tshell);
+	ft_expander(tshell);
+	ft_comand(tshell);
+	ft_path(tshell);
+	return (0);
+}
+
+void	exit_minishell(t_myshell *ms)
+{
+	if (ms->environ)
+		free_arr(ms->environ);
+	if (ms->t_com)
+		free_tcoms(ms);
 }

@@ -6,7 +6,7 @@
 #    By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/12 00:01:24 by ecortes-          #+#    #+#              #
-#    Updated: 2025/02/06 13:46:27 by ecortes-         ###   ########.fr        #
+#    Updated: 2025/03/02 18:42:26 by ecortes-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,19 +28,21 @@ SRCS = main.c \
         libft/ft_strtrim.c \
         libft/ft_strncmp.c \
         libft/ft_strjoin.c \
-        libft/ft_command_new.c \
-        libft/ft_commandadd_back.c \
         libft/ft_tokenadd_after.c \
         libft/ft_tokensubstitute.c \
         libft/ft_strlcpy.c \
         utils/utils.c \
         utils/init.c \
         utils/free.c \
+        utils/free2.c \
         utils/signals.c \
+        utils/path.c \
         tokenizer/tokens.c \
         tokenizer/tokens2.c \
         tokenizer/tokens3.c \
 		tokenizer/expander.c \
+        comands/comands.c \
+        comands/comands_utils.c \
 
 OBJS = $(SRCS:.c=.o)
 

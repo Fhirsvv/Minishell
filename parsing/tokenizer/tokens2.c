@@ -6,7 +6,7 @@
 /*   By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:39:27 by ecortes-          #+#    #+#             */
-/*   Updated: 2025/02/08 14:54:01 by ecortes-         ###   ########.fr       */
+/*   Updated: 2025/03/02 20:00:44 by ecortes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	token_type(char *str)
 		return (WORD);
 }
 
-void	add_token_free(t_token_handler *h, t_myshell *ms)
+int	add_token_free(t_token_handler *h, t_myshell *ms)
 {
 	char	*buff;
 
@@ -52,13 +52,16 @@ void	add_token_free(t_token_handler *h, t_myshell *ms)
 	if (h->start_q)
 	{
 		buff = ft_substr(h->str, h->start_q - h->str, &h->str[h->i] - h->start_q);
+		if (!buff)
+			return (1); // ver cual seria
 		ft_tokenadd_back(&ms->tokens, ft_token_new(buff, token_type(buff)));
 		ft_free(buff);
 	}
 	h->start_q = NULL;
+	return (0);
 }
 
-void	take_quotes(t_myshell *ms)
+int	take_quotes(t_myshell *ms)
 {
 	t_token *aux;
 	char *str;
@@ -70,15 +73,24 @@ void	take_quotes(t_myshell *ms)
 		if (aux->symbol == D_QUOTE || aux->symbol == S_QUOTE)
 		{
 			if (aux->symbol == D_QUOTE)
+			{
 				str = ft_strtrim(aux->content, "\"");
+				if (!str)
+					return (1);
+			}
 			else
+			{
 				str = ft_strtrim(aux->content, "'");
+				if (!str)
+					return (1);
+			}
 			free(aux->content);
 			aux->content = str;
 			str = NULL;
 		}
 		aux = aux->next;
 	}
+	return (0);
 }
 
 void	split_various_dolar(t_myshell *tshell)

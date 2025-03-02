@@ -6,7 +6,7 @@
 /*   By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 18:04:19 by ecortes-          #+#    #+#             */
-/*   Updated: 2025/02/02 12:20:02 by ecortes-         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:09:50 by ecortes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,19 @@ void	free_minishell(t_myshell *tshell)
 {
 	ft_free(tshell->prompt);
 	free_tokens(&tshell->tokens);
-	//free_comands(&tshell->comands);
+	free_tcoms(tshell);
 }
 
 int	ft_free(char *s)
 {
 	if (!s)
 		return (1);
-	free(s);
-	s = NULL;
-	return (1);
+	else
+	{
+		free(s);
+		s = NULL;
+	}
+	return (0);
 }
 
 void	ft_free2(char *arr1, char *arr2)
@@ -47,3 +50,4 @@ void	free_tokens(t_token **tk)
 	}
 	*tk = NULL;
 }
+

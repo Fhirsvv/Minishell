@@ -6,7 +6,7 @@
 /*   By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 20:13:15 by ecortes-          #+#    #+#             */
-/*   Updated: 2025/02/08 19:33:49 by ecortes-         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:42:35 by ecortes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ int	expander(t_myshell *tshell)
 	while (aux)
 	{
 		if ((aux->symbol == D_QUOTE || aux->symbol == WORD)
-			&& ft_strchr(aux->content, '$')
-			&& (ft_strcmp(aux->content, "$") != 0 || ft_strcmp(aux->content, "$$") != 0
+			&& ft_strchr(aux->content, '$') && (ft_strcmp(aux->content, "$")
+			!= 0 || ft_strcmp(aux->content, "$$") != 0
 			|| ft_strcmp(aux->content, "$?") != 0))
 		{
 			new_content = expand_content(aux->content, tshell);
@@ -109,4 +109,12 @@ int	expander(t_myshell *tshell)
 		aux = aux->next;
 	}
 	return (0);
+}
+
+int ft_expander(t_myshell *ms)
+{
+	if (ms->exit_status != EXIT_SUCCESS)
+		return (ms->exit_status);
+	ms->exit_status = expander(ms);
+	return (ms->exit_status);
 }
