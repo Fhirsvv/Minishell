@@ -6,7 +6,7 @@
 /*   By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 15:24:11 by ecortes-          #+#    #+#             */
-/*   Updated: 2025/02/02 11:51:59 by ecortes-         ###   ########.fr       */
+/*   Updated: 2025/03/02 20:54:57 by ecortes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char	*ft_strtrim(char *s1, char const *set)
 	start = 0;
 	i = 0;
 	end = ft_strlen(s1);
+	if (*s1 == '\0')
+		return (NULL);
 	while (s1[start] && ft_set_in_s(s1[start], set))
 		start++;
 	while (end > start && ft_set_in_s(s1[end - 1], set))
@@ -50,7 +52,6 @@ char	*ft_strtrim(char *s1, char const *set)
 		start++;
 	}
 	res[i] = '\0';
-	//ft_free(s1);
 	return (res);
 }
 

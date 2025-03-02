@@ -6,7 +6,7 @@
 /*   By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:34:24 by ecortes-          #+#    #+#             */
-/*   Updated: 2025/03/02 20:00:21 by ecortes-         ###   ########.fr       */
+/*   Updated: 2025/03/02 20:47:50 by ecortes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	how_many_finds(char *str, int c)
 int parsing(t_myshell *tshell)
 {
 	if (!tshell->prompt)
-		tshell->exit_status = 1;
+		return (1);
 
 	add_history(tshell->prompt);
 	if (count_quotes(tshell->prompt) == 1)
@@ -75,7 +75,7 @@ int parsing(t_myshell *tshell)
 	ft_expander(tshell);
 	ft_comand(tshell);
 	ft_path(tshell);
-	return (0);
+	return (tshell->exit_status);
 }
 
 void	exit_minishell(t_myshell *ms)

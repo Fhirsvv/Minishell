@@ -6,7 +6,7 @@
 /*   By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 17:52:41 by ecortes-          #+#    #+#             */
-/*   Updated: 2025/03/02 19:59:36 by ecortes-         ###   ########.fr       */
+/*   Updated: 2025/03/02 20:54:16 by ecortes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,8 @@ int	loop(t_myshell *tshell)
 		if (!pr)
 			break ;
 		tshell->prompt = ft_strtrim(pr, " \n\t\r\v\f");
-		free(pr);
-		if (parsing(tshell))
-			return (tshell->exit_status);
-		
+		ft_free(pr);
+		parsing(tshell);
 		//exec(tshell);
 		free_minishell(tshell);
 	}
