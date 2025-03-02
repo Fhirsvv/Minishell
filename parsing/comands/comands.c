@@ -6,7 +6,7 @@
 /*   By: ecortes- <ecortes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 15:35:49 by ecortes-          #+#    #+#             */
-/*   Updated: 2025/03/02 19:41:52 by ecortes-         ###   ########.fr       */
+/*   Updated: 2025/03/02 20:32:44 by ecortes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_comand(t_myshell *ms)
 	ms->t_com = start;
 	t_next = ms->tokens;
 	caux = start;
-	while (t_next)
+	while (t_next && ms->exit_status == EXIT_SUCCESS)
 	{
 		if (is_word(t_next))
 		{
@@ -61,7 +61,7 @@ int	ft_comand(t_myshell *ms)
 			if (!caux->args)
 			{
 				printf("error add_to_matrix new_comand\n");
-				return (1);
+				ms->exit_status = 1;
 			}	
 		}
 		else if (is_redir(t_next))
@@ -70,12 +70,12 @@ int	ft_comand(t_myshell *ms)
 			{
 				//el error de $? = 2
 				printf("syntax error near unexpected token `newline'\n");
-				return (1);
+				ms->exit_status = 1;
 			}
 			else if (addfile(caux, t_next->next)) //que hacer cuando acaba en redir el comando
 			{
 				printf("error addfile\n");
-				return (1);
+				ms->exit_status = 1;
 			}
 		}
 		else if (t_next->symbol == PIPE)
@@ -84,7 +84,7 @@ int	ft_comand(t_myshell *ms)
 			if (!caux->next)
 			{
 				printf("error new_t_com\n");
-				return (1);
+				ms->exit_status = 1;
 			}
 			caux = caux->next;
 		}
